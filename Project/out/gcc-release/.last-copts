@@ -1,0 +1,1 @@
+-O2 -DNDEBUG=1   -I/usr/include -fno-stack-protector -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -IC:/Users/mouna/Dropbox/Workspace/veins/src -I. -IApps_test -ICarApps -IMyCar_Model -Imessages_ITS_G5 -Imessages_ITS_G5/messageCAM -Imessages_ITS_G5/messageDENM -Iresults -IC:/Users/mouna/Dropbox/Repository/omnetpp-4.6/include

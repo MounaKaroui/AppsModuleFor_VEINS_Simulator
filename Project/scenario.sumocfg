@@ -1,0 +1,17 @@
+<configuration>
+  <input>
+    <net-file value="scenario.net.xml"/>
+    <route-files value="scenario.rou.xml"/>
+   <additional-files value="scenario.add.xml" />
+    
+  </input>
+  <time>
+    <begin value="0"/>
+    <end value="1000"/>
+    <step-length value="0.01"/>
+  </time>
+  <gui_only>
+   <start value="true"/>
+    <gui-settings-file value="gui-settings.xml"/>
+   </gui_only>
+</configuration>

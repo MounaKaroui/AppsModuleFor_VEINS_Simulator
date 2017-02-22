@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 12/16/2016 12:23:27 PM by Netedit Version 0.25.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netedit.exeConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\mouna\Dropbox\Repository\omnetpp-4.6\samples\Project\scenario.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\mouna\Dropbox\Repository\omnetpp-4.6\samples\Project\scenario.net.xml"/>
+    </output>
+
+    <processing>
+        <no-turnarounds value="true"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+        <junctions.corner-detail value="0"/>
+    </processing>
+
+</configuration>
+-->
+
+<net version="0.25" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="0.00,511.00,2500.00,511.00" origBoundary="0.00,0.00,400.00,400.00" projParameter="!"/>
+
+    <edge id=":1/1_0" function="internal">
+        <lane id=":1/1_0_0" index="0" speed="50.00" length="0.10" width="6.00" shape="511.00,514.05 511.00,514.05"/>
+    </edge>
+    <edge id=":1/1_1" function="internal">
+        <lane id=":1/1_1_0" index="0" speed="50.00" length="0.10" width="6.00" shape="511.00,507.95 511.00,507.95"/>
+    </edge>
+
+    <edge id="1/0to1/1" from="1/0" to="1/1" priority="-1" length="844.00">
+        <lane id="1/0to1/1_0" index="0" speed="50.00" length="844.00" width="6.00" shape="2500.00,514.05 511.00,514.05"/>
+    </edge>
+    <edge id="1/1to1/0" from="1/1" to="1/0" priority="-1" length="844.00">
+        <lane id="1/1to1/0_0" index="0" speed="50.00" length="844.00" width="6.00" shape="511.00,507.95 2500.00,507.95"/>
+    </edge>
+    <edge id="1/1to1/2" from="1/1" to="1/2" priority="-1" length="844.00">
+        <lane id="1/1to1/2_0" index="0" speed="50.00" length="844.00" width="6.00" shape="511.00,514.05 0.00,514.05"/>
+    </edge>
+    <edge id="1/2to1/1" from="1/2" to="1/1" priority="-1" length="844.00">
+        <lane id="1/2to1/1_0" index="0" speed="50.00" length="844.00" width="6.00" shape="0.00,507.95 511.00,507.95"/>
+    </edge>
+
+    <junction id="1/0" type="traffic_light_unregulated" x="2500.00" y="511.00" incLanes="1/1to1/0_0" intLanes="" shape="2500.00,511.05 2500.00,517.05 2500.00,504.95 2500.00,510.95"/>
+    <junction id="1/1" type="traffic_light_unregulated" x="511.00" y="511.00" incLanes="1/0to1/1_0 1/2to1/1_0" intLanes=":1/1_0_0 :1/1_1_0" shape="511.00,517.05 511.00,504.95 511.00,517.05"/>
+    <junction id="1/2" type="traffic_light_unregulated" x="0.00" y="511.00" incLanes="1/1to1/2_0" intLanes="" shape="0.00,510.95 0.00,504.95 0.00,517.05 0.00,511.05"/>
+
+    <connection from="1/0to1/1" to="1/1to1/2" fromLane="0" toLane="0" via=":1/1_0_0" dir="s" state="M"/>
+    <connection from="1/2to1/1" to="1/1to1/0" fromLane="0" toLane="0" via=":1/1_1_0" dir="s" state="M"/>
+
+    <connection from=":1/1_0" to="1/1to1/2" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":1/1_1" to="1/1to1/0" fromLane="0" toLane="0" dir="s" state="M"/>
+
+</net>

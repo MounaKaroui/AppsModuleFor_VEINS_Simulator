@@ -1,0 +1,1 @@
+-DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_OSG -DWITH_TKENV -DWITH_MPI -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -g -Wall -fPIC  -fno-stack-protector  -I../veins/src -I. -IApps_test -ICarApps -IMyCar_Model -Iresults -I/home/leost/MyWorkSpace/omnetpp-5.0/include

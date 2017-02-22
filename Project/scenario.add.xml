@@ -1,0 +1,7 @@
+<pois>
+
+<poi id="rsu0" type="rsu" color="1,0,0"  layer="1" x="511" y="511"
+/>
+<poi id="rsu1" type="rsu" color="0,1,0"  layer="1" x="+1533" y="511"
+/>
+</pois>

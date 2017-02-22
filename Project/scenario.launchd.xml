@@ -1,0 +1,7 @@
+<launch>
+  <copy file="scenario.net.xml"/>
+  <copy file="scenario.rou.xml"/>
+   <copy file="scenario.add.xml"/>
+  <copy file="scenario.sumocfg" type="config"/>
+  <copy file="gui-settings.xml"/>
+</launch>
