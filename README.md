@@ -1,0 +1,2 @@
+# ApplicationModuleFor_VEINS_Framework
+Testing a multiapplication scenario for V2X communication simulations
