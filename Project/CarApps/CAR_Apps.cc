@@ -28,10 +28,14 @@ void CAR_Apps::initialize(int stage)
            ASSERT(annotations);
            //schedule for first sending
            HWEvt = new cMessage("Hazard warning", SEND_DATA_HW_EVT);
-           sendData=false;
-           if (sendData) {
-                       scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
-                   }
+           scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
+
+           sendWSA=par("sendWSA").boolValue();
+
+
+           if(sendWSA){
+               scheduleAt(simTime()+wsaInterval,sendWSAEvt);
+           }
            carTocar_E2E_HW.setName("E2E_carTocar_HW");
            startTime=simTime().dbl();
 
@@ -69,13 +73,13 @@ void CAR_Apps::initialize(int stage)
 }
 
 void CAR_Apps::finish(){
-    if (HWEvt->isScheduled()) {
-            cancelAndDelete(HWEvt);
-        }
-        else {
-            delete HWEvt;
-        }
 
+    if(HWEvt->isScheduled()){
+        cancelAndDelete(HWEvt);
+    }
+    else{
+     delete HWEvt;
+    }
     recordScalar("numReceiveDSL",numReceiveDSL);
     recordScalar("numReceiveWI",numReceiveWI);
     recordScalar("numReceivePI",numReceivePI);
@@ -107,15 +111,15 @@ void CAR_Apps::onBSM(BasicSafetyMessage* bsm){
 
 void CAR_Apps::onWSA(WaveServiceAdvertisment*  wsa){
 
-    if (currentSubscribedServiceId == -1) {
-           mac->changeServiceChannel(wsa->getTargetChannel());
-           currentSubscribedServiceId = wsa->getPsid();
-           if  (currentOfferedServiceId != wsa->getPsid())
-           {
-               stopService();
-               startService((Channels::ChannelNumber) wsa->getTargetChannel(), wsa->getPsid(), "Mirrored Traffic Service");
-           }
-       }
+//    if (currentSubscribedServiceId == -1) {
+//           mac->changeServiceChannel(wsa->getTargetChannel());
+//           currentSubscribedServiceId = wsa->getPsid();
+//           if  (currentOfferedServiceId != wsa->getPsid())
+//           {
+//               stopService();
+//               startService((Channels::ChannelNumber) wsa->getTargetChannel(), wsa->getPsid(), "Mirrored Traffic Service");
+//           }
+//       }
 
     switch(wsa->getPsid()){
     case 40 :
@@ -158,31 +162,32 @@ void CAR_Apps::handleSelfMsg(cMessage* msg) {
     switch (msg->getKind()) {
         case SEND_DATA_HW_EVT:{
             dataPriority=3;
-            dataLengthBits=1000;
-//            WaveServiceAdvertisment* wsa_HWV2V=new WaveServiceAdvertisment();
-//            populateWSM(wsa_HWV2V);
-//            wsa_HWV2V->setPsid(44);
-//            sendDown(wsa_HWV2V);
-//            scheduleAt(simTime() + par("wsaInterval").doubleValue(), sendWSAEvt);
+            WaveServiceAdvertisment* wsa_HWV2V=new WaveServiceAdvertisment();
+            populateWSM(wsa_HWV2V);
+            wsa_HWV2V->setPsid(44);
+            sendDelayedDown(wsa_HWV2V,par("wsaInterval").doubleValue());
 
+            //sendDown(wsa_HWV2V);
             WaveShortMessage* wsm=new WaveShortMessage();
+
             populateWSM(wsm);
             wsm->setPriority(dataPriority);
             wsm->setWsmData("HazardWarningData");
-            wsm->setChannelNumber(Channels::CCH);
             wsm->setSenderAddress(11);
+            wsm->setChannelNumber(Channels::CCH);
             sendWSM(wsm);
             DBG_APP<< "sending HW messages  from CAR"<<endl;
             scheduleAt(simTime() + par("dataHWInterval").doubleValue(), HWEvt);
             numSentHWV2V++;
             break;
         }
-        BaseWaveApplLayer::handleSelfMsg(msg);
         default: {
             if (msg)
               DBG_APP << "APP: Error: Got Self Message of unknown kind! Name: " << msg->getName() << endl;
             break;
         }}
+       BaseWaveApplLayer::handleSelfMsg(msg);
+
 }
 
 void CAR_Apps::onWSM(WaveShortMessage* wsm) {

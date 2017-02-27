@@ -44,7 +44,7 @@ public:
     cOutVector  E2E_wsaHW_V2I;
     cOutVector  E2E_wsaHW_V2V;
 
-    bool      sendData;
+    bool      sendWSA;
     double    startTime;
     double    totalBitsPI;
     double    totalBitsDSL;

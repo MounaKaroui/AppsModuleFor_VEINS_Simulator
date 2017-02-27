@@ -71,11 +71,9 @@ public:
         long size;
         int inApps[];
         int outApps;
-
-
+        bool sendWSA;
 
     protected:
-        bool sentMessage;
         virtual void finish();
         virtual void handleSelfMsg(cMessage* msg);
         virtual void onWSA(WaveServiceAdvertisment* wsa);

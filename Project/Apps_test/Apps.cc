@@ -11,7 +11,6 @@ void Apps::initialize(int stage) {
         for(int i=0;i<size;i++){
         inApps[i]=gateBaseId("inApps")+i;
         }
-        sentMessage= false;
         sendDataWIEvt = new cMessage("Weather info msg", SEND_DATA_WI_EVT);
         sendDataDSLEvt = new cMessage("DynamicSpeed msg", SEND_DATA_DSL_EVT);
         sendDataPIEvt= new cMessage("Point of interest msg", SEND_DATA_PI_EVT);
@@ -27,6 +26,12 @@ void Apps::initialize(int stage) {
         endToendDelay_BSM.setName("E2E_BSM");
         wsaInterval=par("wsaInterval").doubleValue();
 
+        sendWSA=par("sendWSA").boolValue();
+
+
+                   if(sendWSA){
+                       scheduleAt(simTime()+wsaInterval,sendWSAEvt);
+                   }
         }}
 
 void Apps::onBSM(BasicSafetyMessage* bsm)
@@ -35,9 +40,11 @@ void Apps::onBSM(BasicSafetyMessage* bsm)
 }
 
 void Apps::onWSM(WaveShortMessage* wsm) {
+
+     forwardHW_Msg(wsm);
      DBG_APP<< "Received a data from on data Apps" <<  wsm->getWsmData()<<std::endl;
      bubble("Yes I am here");
-     forwardHW_Msg(wsm);
+
 }
 
 void Apps::onWSA(WaveServiceAdvertisment* wsa)
@@ -46,7 +53,7 @@ void Apps::onWSA(WaveServiceAdvertisment* wsa)
 //      if (std::string(wsa->getServiceDescription())=="WSAServices") {
 //          mac->changeServiceChannel(wsa->getTargetChannel());
 //      }
-
+// delete wsa;
 }
 
 void Apps :: sendDownApps(cMessage* msg){
@@ -75,12 +82,11 @@ void Apps::handleSelfMsg(cMessage* msg){
                            populateWSM(wsm);
                            wsm->setWsmData("WeatherInfoData");
                            wsm->setPriority(dataPriority);
-                           wsm->setChannelNumber(Channels::CCH);
+                           wsm->addBitLength(dataLengthBits);
                            sendDelayed(wsm,  par("individualOffset").doubleValue(), gate_out);
                                }
                        numSentWI++;
                        scheduleAt(simTime() + par("dataWIInterval").doubleValue(), sendDataWIEvt);
-
                        break;
                             }
           case SEND_DATA_PI_EVT: {
@@ -99,6 +105,7 @@ void Apps::handleSelfMsg(cMessage* msg){
                                                 populateWSM(wsm);
                                                 wsm->setPriority(dataPriority);
                                                 wsm->setWsmData("PointOfInterestData");
+                                               // wsm->addBitLength(dataLengthBits);
                                                 sendDelayed(wsm, par("individualOffset").doubleValue(), gate_out);
                                                     }
                                             numSentPI++;
@@ -121,6 +128,7 @@ void Apps::handleSelfMsg(cMessage* msg){
                                                   populateWSM(wsm);
                                                   wsm->setWsmData("DynamicSpeedLimitData");
                                                   wsm->setPriority(dataPriority);
+                                                 // wsm->addBitLength(dataLengthBits);
                                                   sendDelayed(wsm,par("individualOffset").doubleValue(), gate_out);
                                  }
                                               numSentDSL++;
@@ -149,7 +157,7 @@ void Apps::forwardHW_Msg(WaveShortMessage* wsm)
          sendDelayed(wsm1, 0.05,"outApps", k);
          numsentHWV2I++;
          DBG_APP<< "Forwarding message " << wsm1->getWsmData() << " " << wsm1->getSenderAddress() << " on port out[" << k << "]\n";
-         delete wsm;
+         // delete wsm;
          // WSA sending HW
          WaveServiceAdvertisment* wsa_V2I=new WaveServiceAdvertisment();
          populateWSM(wsa_V2I);
