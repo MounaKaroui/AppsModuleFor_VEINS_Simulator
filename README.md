@@ -1,4 +1,4 @@
-# ApplicationModuleFor_VEINS_Framework
+# Application Module for VEINS Framework
 Implementing a multiapplication scenario for V2X communications
 
 VEINS framework version 4.4, link : 
