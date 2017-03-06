@@ -28,14 +28,10 @@ void CAR_Apps::initialize(int stage)
            ASSERT(annotations);
            //schedule for first sending
            HWEvt = new cMessage("Hazard warning", SEND_DATA_HW_EVT);
-           scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
-
-           sendWSA=par("sendWSA").boolValue();
-
-
-           if(sendWSA){
-               scheduleAt(simTime()+wsaInterval,sendWSAEvt);
-           }
+           sendData=false;
+           if (sendData) {
+                       scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
+                   }
            carTocar_E2E_HW.setName("E2E_carTocar_HW");
            startTime=simTime().dbl();
 
@@ -44,6 +40,7 @@ void CAR_Apps::initialize(int stage)
            totalBitsWI=0;
            totalBitsHW_V2I=0;
            totalBitsHW_V2V=0;
+           totalBitsBSM=0;
 
            numSentHWV2V=0;
            numReceiveDSL=0;
@@ -69,17 +66,18 @@ void CAR_Apps::initialize(int stage)
            avgThroughput_DSL=0;
            avgThroughput_PI=0;
            avgThroughput_WI=0;
+           avgThroughtput_BSM=0;
    }
 }
 
 void CAR_Apps::finish(){
+    if (HWEvt->isScheduled()) {
+            cancelAndDelete(HWEvt);
+        }
+        else {
+            delete HWEvt;
+        }
 
-    if(HWEvt->isScheduled()){
-        cancelAndDelete(HWEvt);
-    }
-    else{
-     delete HWEvt;
-    }
     recordScalar("numReceiveDSL",numReceiveDSL);
     recordScalar("numReceiveWI",numReceiveWI);
     recordScalar("numReceivePI",numReceivePI);
@@ -95,22 +93,26 @@ void CAR_Apps::finish(){
     avgThroughput_DSL=totalBitsDSL/t;
     avgThroughput_PI=totalBitsPI/t;
     avgThroughput_WI=totalBitsWI/t;
+    avgThroughtput_BSM=totalBitsBSM/t;
 
     recordScalar("Average throughput_HW_V2V", avgThroughput_HW_V2V);
     recordScalar("Average throughput_HW_V2I", avgThroughput_HW_V2I);
     recordScalar("Average throughput_DSL", avgThroughput_DSL);
     recordScalar("Average throughput_WI", avgThroughput_WI);
     recordScalar("Average throughput_PI", avgThroughput_PI);
+    recordScalar("Average throughput_BSM", avgThroughtput_BSM);
+
 }
 
 void CAR_Apps::onBSM(BasicSafetyMessage* bsm){
     if(std::string(bsm->getName()) == "BSM"){
     endToendDelay_bsm.record((simTime()-bsm->getTimestamp()).dbl());
+    totalBitsBSM+=bsm->getBitLength();
     }}
 
 
 void CAR_Apps::onWSA(WaveServiceAdvertisment*  wsa){
-
+//
 //    if (currentSubscribedServiceId == -1) {
 //           mac->changeServiceChannel(wsa->getTargetChannel());
 //           currentSubscribedServiceId = wsa->getPsid();
@@ -120,24 +122,24 @@ void CAR_Apps::onWSA(WaveServiceAdvertisment*  wsa){
 //               startService((Channels::ChannelNumber) wsa->getTargetChannel(), wsa->getPsid(), "Mirrored Traffic Service");
 //           }
 //       }
-
-    switch(wsa->getPsid()){
-    case 40 :
-        E2E_wsaWI.record((simTime()-wsa->getTimestamp()).dbl());
-        break;
-    case 41 :
-        E2E_wsaPI.record((simTime()-wsa->getTimestamp()).dbl());
-        break;
-    case 42 :
-        E2E_wsaDSL.record((simTime()-wsa->getTimestamp()).dbl());
-         break;
-    case 43 :
-        E2E_wsaHW_V2I.record((simTime()-wsa->getTimestamp()).dbl());
-        break;
-    case 44 :
-        E2E_wsaHW_V2V.record((simTime()-wsa->getTimestamp()).dbl());
-        break;
-    }
+//
+//    switch(wsa->getPsid()){
+//    case 40 :
+//        E2E_wsaWI.record((simTime()-wsa->getTimestamp()).dbl());
+//        break;
+//    case 41 :
+//        E2E_wsaPI.record((simTime()-wsa->getTimestamp()).dbl());
+//        break;
+//    case 42 :
+//        E2E_wsaDSL.record((simTime()-wsa->getTimestamp()).dbl());
+//         break;
+//    case 43 :
+//        E2E_wsaHW_V2I.record((simTime()-wsa->getTimestamp()).dbl());
+//        break;
+//    case 44 :
+//        E2E_wsaHW_V2V.record((simTime()-wsa->getTimestamp()).dbl());
+//        break;
+//    }
 
 }
 
@@ -162,19 +164,17 @@ void CAR_Apps::handleSelfMsg(cMessage* msg) {
     switch (msg->getKind()) {
         case SEND_DATA_HW_EVT:{
             dataPriority=3;
-            WaveServiceAdvertisment* wsa_HWV2V=new WaveServiceAdvertisment();
-            populateWSM(wsa_HWV2V);
-            wsa_HWV2V->setPsid(44);
-            sendDelayedDown(wsa_HWV2V,par("wsaInterval").doubleValue());
+              WaveServiceAdvertisment* wsa_HWV2V=new WaveServiceAdvertisment();
+              populateWSM(wsa_HWV2V);
+              wsa_HWV2V->setPsid(44);
+              sendDelayedDown(wsa_HWV2V,par('wsaInterval').doubleValue());
 
-            //sendDown(wsa_HWV2V);
             WaveShortMessage* wsm=new WaveShortMessage();
-
             populateWSM(wsm);
             wsm->setPriority(dataPriority);
             wsm->setWsmData("HazardWarningData");
-            wsm->setSenderAddress(11);
             wsm->setChannelNumber(Channels::CCH);
+            wsm->setSenderAddress(11);
             sendWSM(wsm);
             DBG_APP<< "sending HW messages  from CAR"<<endl;
             scheduleAt(simTime() + par("dataHWInterval").doubleValue(), HWEvt);
@@ -187,7 +187,6 @@ void CAR_Apps::handleSelfMsg(cMessage* msg) {
             break;
         }}
        BaseWaveApplLayer::handleSelfMsg(msg);
-
 }
 
 void CAR_Apps::onWSM(WaveShortMessage* wsm) {

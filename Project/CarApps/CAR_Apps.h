@@ -44,19 +44,21 @@ public:
     cOutVector  E2E_wsaHW_V2I;
     cOutVector  E2E_wsaHW_V2V;
 
-    bool      sendWSA;
+    bool      sendData;
     double    startTime;
     double    totalBitsPI;
     double    totalBitsDSL;
     double    totalBitsWI;
     double    totalBitsHW_V2V;
     double    totalBitsHW_V2I;
+    double    totalBitsBSM;
 
     double    avgThroughput_HW_V2I;
     double    avgThroughput_HW_V2V;
     double    avgThroughput_DSL;
     double    avgThroughput_WI;
     double    avgThroughput_PI;
+    double    avgThroughtput_BSM;
 
     float delayHWV2I;
     long numSentHWV2V=0;

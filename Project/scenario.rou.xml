@@ -4,8 +4,8 @@
   <vType id="vtype1" speedDev="0.1"  accel="2.6" decel="0.5" sigma="1.0" length="2.5" minGap="2.5" maxSpeed="12.5" color="1,1,0"/>
   	 
  
-  <flow id="flow0" type="vtype1" route="1"  begin="0"  number="25"/>
-  <flow id="flow1" type="vtype1" route="2"  begin="0"  number="25"/> 
+  <flow id="flow0" type="vtype1" route="1"  begin="0"  number="40"/>
+  <flow id="flow1" type="vtype1" route="2"  begin="0"  number="40"/> 
   </routes>
 
 
