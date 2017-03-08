@@ -25,7 +25,7 @@ simple Apps  extends BaseWaveApplLayer
      volatile double dataWIInterval = default(0.095s) @unit(s);  
      volatile double dataDSLInterval = default(0.095s) @unit(s);
      volatile double dataPIInterval = default(0.095s) @unit(s);
-     volatile double individualOffset=default(0.05s) @unit(s);
+     volatile double individualOffset=default(0.005s) @unit(s);
    
      @class(Apps);
      int size;

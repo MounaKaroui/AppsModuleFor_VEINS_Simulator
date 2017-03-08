@@ -40,10 +40,7 @@ void Apps::onWSM(WaveShortMessage* wsm) {
 
 void Apps::onWSA(WaveServiceAdvertisment* wsa)
 {
-     //if this RSU receives a WSA for service 42, it will tune to the chan
-//      if (std::string(wsa->getServiceDescription())=="WSAServices") {
-//          mac->changeServiceChannel(wsa->getTargetChannel());
-//      }
+
 
 }
 

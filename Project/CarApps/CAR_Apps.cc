@@ -28,10 +28,9 @@ void CAR_Apps::initialize(int stage)
            ASSERT(annotations);
            //schedule for first sending
            HWEvt = new cMessage("Hazard warning", SEND_DATA_HW_EVT);
-           sendData=false;
-           if (sendData) {
-                       scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
-                   }
+
+           scheduleAt(simTime() + uniform(0,0.0003), HWEvt);
+
            carTocar_E2E_HW.setName("E2E_carTocar_HW");
            startTime=simTime().dbl();
 
@@ -167,7 +166,7 @@ void CAR_Apps::handleSelfMsg(cMessage* msg) {
               WaveServiceAdvertisment* wsa_HWV2V=new WaveServiceAdvertisment();
               populateWSM(wsa_HWV2V);
               wsa_HWV2V->setPsid(44);
-              sendDelayedDown(wsa_HWV2V,par('wsaInterval').doubleValue());
+              sendDelayedDown(wsa_HWV2V,par("wsaInterval").doubleValue());
 
             WaveShortMessage* wsm=new WaveShortMessage();
             populateWSM(wsm);

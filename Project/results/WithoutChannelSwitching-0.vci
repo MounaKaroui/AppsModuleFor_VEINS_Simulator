@@ -1,15 +1,15 @@
                                                                 
 version 2
-run WithoutChannelSwitching-0-20170306-12:09:40-13452
+run WithoutChannelSwitching-0-20170308-15:13:17-1602
 attr configname WithoutChannelSwitching
-attr datetime 20170306-12:09:40
+attr datetime 20170308-15:13:17
 attr experiment WithoutChannelSwitching
 attr inifile omnetpp.ini
 attr iterationvars ""
 attr iterationvars2 $repetition=0
 attr measurement ""
 attr network V2X
-attr processid 13452
+attr processid 1602
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -51,8 +51,8 @@ param *.manager.numVehicles 200
 param *.manager.port 9999
 param *.manager.updateInterval 0.1s
 param *.node[*0].veinsmobility.accidentCount 1
-param *.node[*0].veinsmobility.accidentDuration 50s
-param *.node[*0].veinsmobility.accidentStart 75s
+param *.node[*0].veinsmobility.accidentDuration 30s
+param *.node[*0].veinsmobility.accidentStart 1s
 param *.node[*].appl.beaconInterval 0.1s
 param *.node[*].appl.dataLengthBits "10000 bit"
 param *.node[*].appl.dataOnSch false
@@ -93,13 +93,18 @@ vector 39  V2X.node[1].veinsmobility  acceleration  ETV
 vector 40  V2X.node[1].veinsmobility  co2emission  ETV
 vector 54  V2X.node[2].veinsmobility  posx  ETV
 vector 55  V2X.node[2].veinsmobility  posy  ETV
-vector 42  V2X.node[2].appl  E2E_delayBSM  ETV
+vector 23  V2X.node[1].appl  E2E_carTocar_HW  ETV
 vector 24  V2X.node[1].appl  E2E_delayBSM  ETV
+vector 41  V2X.node[2].appl  E2E_carTocar_HW  ETV
+vector 42  V2X.node[2].appl  E2E_delayBSM  ETV
 vector 56  V2X.node[2].veinsmobility  speed  ETV
 vector 57  V2X.node[2].veinsmobility  acceleration  ETV
 vector 58  V2X.node[2].veinsmobility  co2emission  ETV
 vector 72  V2X.node[3].veinsmobility  posx  ETV
 vector 73  V2X.node[3].veinsmobility  posy  ETV
+vector 5  V2X.node[0].appl  E2E_carTocar_HW  ETV
+vector 59  V2X.node[3].appl  E2E_carTocar_HW  ETV
+vector 6  V2X.node[0].appl  E2E_delayBSM  ETV
 vector 60  V2X.node[3].appl  E2E_delayBSM  ETV
 vector 74  V2X.node[3].veinsmobility  speed  ETV
 vector 75  V2X.node[3].veinsmobility  acceleration  ETV
@@ -107,18 +112,20 @@ vector 76  V2X.node[3].veinsmobility  co2emission  ETV
 vector 90  V2X.node[4].veinsmobility  posx  ETV
 vector 91  V2X.node[4].veinsmobility  posy  ETV
 vector 78  V2X.node[4].appl  E2E_delayBSM  ETV
+vector 77  V2X.node[4].appl  E2E_carTocar_HW  ETV
 vector 92  V2X.node[4].veinsmobility  speed  ETV
-vector 108  V2X.node[5].veinsmobility  posx  ETV
-vector 109  V2X.node[5].veinsmobility  posy  ETV
 vector 93  V2X.node[4].veinsmobility  acceleration  ETV
 vector 94  V2X.node[4].veinsmobility  co2emission  ETV
-vector 6  V2X.node[0].appl  E2E_delayBSM  ETV
+vector 108  V2X.node[5].veinsmobility  posx  ETV
+vector 109  V2X.node[5].veinsmobility  posy  ETV
 vector 96  V2X.node[5].appl  E2E_delayBSM  ETV
+vector 95  V2X.node[5].appl  E2E_carTocar_HW  ETV
 vector 110  V2X.node[5].veinsmobility  speed  ETV
 vector 111  V2X.node[5].veinsmobility  acceleration  ETV
 vector 112  V2X.node[5].veinsmobility  co2emission  ETV
 vector 126  V2X.node[6].veinsmobility  posx  ETV
 vector 127  V2X.node[6].veinsmobility  posy  ETV
+vector 113  V2X.node[6].appl  E2E_carTocar_HW  ETV
 vector 114  V2X.node[6].appl  E2E_delayBSM  ETV
 vector 128  V2X.node[6].veinsmobility  speed  ETV
 vector 129  V2X.node[6].veinsmobility  acceleration  ETV
@@ -126,17 +133,20 @@ vector 130  V2X.node[6].veinsmobility  co2emission  ETV
 vector 144  V2X.node[7].veinsmobility  posx  ETV
 vector 145  V2X.node[7].veinsmobility  posy  ETV
 vector 132  V2X.node[7].appl  E2E_delayBSM  ETV
-vector 162  V2X.node[8].veinsmobility  posx  ETV
-vector 163  V2X.node[8].veinsmobility  posy  ETV
+vector 131  V2X.node[7].appl  E2E_carTocar_HW  ETV
 vector 146  V2X.node[7].veinsmobility  speed  ETV
-vector 150  V2X.node[8].appl  E2E_delayBSM  ETV
 vector 147  V2X.node[7].veinsmobility  acceleration  ETV
 vector 148  V2X.node[7].veinsmobility  co2emission  ETV
+vector 162  V2X.node[8].veinsmobility  posx  ETV
+vector 163  V2X.node[8].veinsmobility  posy  ETV
+vector 150  V2X.node[8].appl  E2E_delayBSM  ETV
+vector 149  V2X.node[8].appl  E2E_carTocar_HW  ETV
 vector 164  V2X.node[8].veinsmobility  speed  ETV
 vector 165  V2X.node[8].veinsmobility  acceleration  ETV
 vector 166  V2X.node[8].veinsmobility  co2emission  ETV
 vector 180  V2X.node[9].veinsmobility  posx  ETV
 vector 181  V2X.node[9].veinsmobility  posy  ETV
+vector 167  V2X.node[9].appl  E2E_carTocar_HW  ETV
 vector 168  V2X.node[9].appl  E2E_delayBSM  ETV
 vector 182  V2X.node[9].veinsmobility  speed  ETV
 vector 183  V2X.node[9].veinsmobility  acceleration  ETV
@@ -144,23 +154,27 @@ vector 184  V2X.node[9].veinsmobility  co2emission  ETV
 vector 198  V2X.node[10].veinsmobility  posx  ETV
 vector 199  V2X.node[10].veinsmobility  posy  ETV
 vector 186  V2X.node[10].appl  E2E_delayBSM  ETV
+vector 185  V2X.node[10].appl  E2E_carTocar_HW  ETV
 vector 200  V2X.node[10].veinsmobility  speed  ETV
 vector 201  V2X.node[10].veinsmobility  acceleration  ETV
 vector 202  V2X.node[10].veinsmobility  co2emission  ETV
 vector 216  V2X.node[11].veinsmobility  posx  ETV
 vector 217  V2X.node[11].veinsmobility  posy  ETV
+vector 203  V2X.node[11].appl  E2E_carTocar_HW  ETV
 vector 204  V2X.node[11].appl  E2E_delayBSM  ETV
 vector 218  V2X.node[11].veinsmobility  speed  ETV
 vector 219  V2X.node[11].veinsmobility  acceleration  ETV
 vector 220  V2X.node[11].veinsmobility  co2emission  ETV
 vector 234  V2X.node[12].veinsmobility  posx  ETV
 vector 235  V2X.node[12].veinsmobility  posy  ETV
+vector 221  V2X.node[12].appl  E2E_carTocar_HW  ETV
 vector 222  V2X.node[12].appl  E2E_delayBSM  ETV
 vector 236  V2X.node[12].veinsmobility  speed  ETV
-vector 252  V2X.node[13].veinsmobility  posx  ETV
-vector 253  V2X.node[13].veinsmobility  posy  ETV
 vector 237  V2X.node[12].veinsmobility  acceleration  ETV
 vector 238  V2X.node[12].veinsmobility  co2emission  ETV
+vector 252  V2X.node[13].veinsmobility  posx  ETV
+vector 253  V2X.node[13].veinsmobility  posy  ETV
+vector 239  V2X.node[13].appl  E2E_carTocar_HW  ETV
 vector 240  V2X.node[13].appl  E2E_delayBSM  ETV
 vector 254  V2X.node[13].veinsmobility  speed  ETV
 vector 255  V2X.node[13].veinsmobility  acceleration  ETV
@@ -168,18 +182,4 @@ vector 256  V2X.node[13].veinsmobility  co2emission  ETV
 vector 270  V2X.node[14].veinsmobility  posx  ETV
 vector 271  V2X.node[14].veinsmobility  posy  ETV
 vector 258  V2X.node[14].appl  E2E_delayBSM  ETV
-vector 272  V2X.node[14].veinsmobility  speed  ETV
-vector 273  V2X.node[14].veinsmobility  acceleration  ETV
-vector 274  V2X.node[14].veinsmobility  co2emission  ETV
-vector 288  V2X.node[15].veinsmobility  posx  ETV
-vector 289  V2X.node[15].veinsmobility  posy  ETV
-vector 276  V2X.node[15].appl  E2E_delayBSM  ETV
-vector 290  V2X.node[15].veinsmobility  speed  ETV
-vector 291  V2X.node[15].veinsmobility  acceleration  ETV
-vector 292  V2X.node[15].veinsmobility  co2emission  ETV
-vector 306  V2X.node[16].veinsmobility  posx  ETV
-vector 307  V2X.node[16].veinsmobility  posy  ETV
-vector 294  V2X.node[16].appl  E2E_delayBSM  ETV
-vector 308  V2X.node[16].veinsmobility  speed  ETV
-vector 309  V2X.node[16].veinsmobility  acceleration  ETV
-vector 310 
+vector 257  V2X.node[14].appl  E2E_carToca

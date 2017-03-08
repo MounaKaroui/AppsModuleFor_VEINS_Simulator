@@ -25,7 +25,7 @@ simple CAR_Apps extends BaseWaveApplLayer
 {
     parameters :
     volatile double dataHWInterval = default(0.095s) @unit(s);  
-    volatile double individualOffset=default(0.05s) @unit(s);
+    volatile double individualOffset=default(0.005s) @unit(s);
     
     @class(CAR_Apps);
     @display("i=block/app2");
